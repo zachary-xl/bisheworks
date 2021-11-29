@@ -1,11 +1,14 @@
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from "./router";
-import {
+import store from "./store";
+/*import {
 	create,
-	NButton
-} from "naive-ui"
-const natives = create({
-	components:[NButton]
-})
-createApp(App).use(router).use(natives).mount('#app')
+	NButton,
+	NMessageProvider,
+} from "naive-ui"*/
+import naive from "naive-ui";
+/*const natives = create({
+	components:[NButton,NMessageProvider]
+})*/
+createApp(App).use(store).use(router).use(naive).mount('#app');

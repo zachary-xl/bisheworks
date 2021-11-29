@@ -1,14 +1,14 @@
 <template>
-  <Header></Header>
+  <Message />
   <router-view></router-view>
 </template>
 
 <script>
-import Header from "./components/Header.vue";
+import Message from './components/Message/index.vue'
 export default {
   name:'App',
   components:{
-    Header
+    Message
   }
 }
 

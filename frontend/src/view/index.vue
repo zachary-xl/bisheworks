@@ -1,13 +1,18 @@
 <template>
-<h1>index</h1>
+  <Header></Header>
 </template>
 
 <script>
-export default {
-  name: "index"
-}
+import { defineComponent } from 'vue';
+import Header from '../components/Header.vue';
+
+export default defineComponent({
+  name: 'index',
+  components: {
+    Header,
+  },
+  setup() {
+    return {};
+  },
+});
 </script>
-
-<style scoped>
-
-</style>

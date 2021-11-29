@@ -8,9 +8,11 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "qs": "^6.10.1",
     "sass": "^1.43.5",
     "vue": "^3.2.16",
-    "vue-router": "^4.0.12"
+    "vue-router": "^4.0.12",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.3",
