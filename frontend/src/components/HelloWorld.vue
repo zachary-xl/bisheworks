@@ -7,10 +7,6 @@
 <script setup>
 import { ref } from 'vue'
 
-defineProps({
-  msg: String
-})
-
 </script>
 
 <style scoped lang="scss">

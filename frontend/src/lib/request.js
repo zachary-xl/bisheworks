@@ -1,98 +1,28 @@
 import axios from "axios";
-import qs from "qs";
 import util from "../config";
-import store from "../store";
-import router from "../router";
 
-axios.defaults.baseURL = util.baseUrl;
-axios.defaults.timeout = util.timeout;
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
-
-axios.interceptors.request.use(config =>{
-	const token = store.state.token;
-	token && (config.headers.Authorization = token);
-	return config;
-},error => {
-	return Promise.error(error);
+// axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
+const services = axios.create({
+	baseURL:util.baseUrl,
+	timeout:util.timeout
 })
-axios.interceptors.response.use(response => {
-	if (response.status === 200) {
-		return Promise.resolve(response);
-	} else {
-		return Promise.reject(response);
+services.interceptors.request.use(config=>{
+	if (localStorage.getItem('token')){
+		config.headers[util.accessToken] =`${localStorage.getItem('token')}`
 	}
+	console.log(config)
+	return config
 },error => {
-	if (error.response.status) {
-		switch (error.response.status) {
-			// 401: 未登录
-			case 401:
-				router.replace({
-					path: '/login',
-					query: {
-						redirect: router.currentRoute.fullPath
-					}
-				});
-				break;
-			// 403 token过期
-			case 403:
-				window.$message.error('登录过期，请重新登录');
-				// 清除token
-				localStorage.removeItem('token');
-				store.commit('setToken', null);
-				setTimeout(() => {
-					router.replace({
-						path: '/login',
-						query: {
-							redirect: router.currentRoute.fullPath
-						}
-					});
-				}, 1000);
-				break;
-			// 404请求不存在
-			case 404:
-				window.$message.error('网络请求不存在');
-				break;
-			// 其他错误，直接抛出错误提示
-			default:
-				window.$message.error(error.response.data.message);
-		}
-		return Promise.reject(error.response);
+	return Promise.reject(error)
+})
+services.interceptors.response.use(res=>{
+	if (res.data.code !== 200){
+		window.$message.error(res.data.msg)
 	}
-});
-const errorHandle = (status, error) => {
-	// 状态码判断
-	switch (status) {
-		// 401: 未登录
-		case 401:
-			router.replace({
-				path: '/login',
-				query: {
-					redirect: router.currentRoute.fullPath
-				}
-			});
-			break;
-		// 403 token过期
-		case 403:
-			window.$message.error('登录过期，请重新登录');
-			// 清除token
-			localStorage.removeItem('token');
-			store.commit('setToken', null);
-			setTimeout(() => {
-				router.replace({
-					path: '/login',
-					query: {
-						redirect: router.currentRoute.fullPath
-					}
-				});
-			}, 1000);
-			break;
-		// 404请求不存在
-		case 404:
-			window.$message.error('网络请求不存在');
-			break;
-		// 其他错误，直接抛出错误提示
-		default:
-			window.$message.error(error.response.data.message);
-	}}
-
-
+	console.log(res)
+	return res.data
+},error => {
+	return Promise.reject(error)
+})
+export default services

@@ -1,14 +1,23 @@
 <template>
-  <Message />
-  <router-view></router-view>
+  <el-config-provider :locale="locale">
+    <Header></Header>
+<!--    <router-view></router-view>-->
+  </el-config-provider>
 </template>
 
 <script>
-import Message from './components/Message/index.vue'
+import zhCn from 'element-plus/lib/locale/lang/zh-cn';
+// import zhTw from "element-plus/lib/locale/lang/zh-tw"
+import Header from "./components/Header.vue";
 export default {
   name:'App',
   components:{
-    Message
+    Header
+  },
+  setup(){
+    return {
+      locale: zhCn,
+    }
   }
 }
 

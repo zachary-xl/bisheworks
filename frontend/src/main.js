@@ -1,14 +1,8 @@
-import { createApp } from 'vue';
+import {createApp} from 'vue';
 import App from './App.vue';
 import router from "./router";
 import store from "./store";
-/*import {
-	create,
-	NButton,
-	NMessageProvider,
-} from "naive-ui"*/
-import naive from "naive-ui";
-/*const natives = create({
-	components:[NButton,NMessageProvider]
-})*/
-createApp(App).use(store).use(router).use(naive).mount('#app');
+import ElementPlus  from "element-plus";
+import 'element-plus/dist/index.css'
+
+createApp(App).use(store).use(router).use(ElementPlus,{ size: 'small', zIndex: 3000 }).mount('#app');
